@@ -1,5 +1,10 @@
 package emu.grasscutter.game.world;
 
+import com.github.davidmoten.rtreemulti.RTree;
+import com.github.davidmoten.rtreemulti.geometry.Geometry;
+
+import emu.grasscutter.utils.Utils;
+import emu.grasscutter.game.managers.leylines.LeyLinesType;
 import emu.grasscutter.Grasscutter;
 import emu.grasscutter.data.GameData;
 import emu.grasscutter.data.GameDepot;
@@ -28,7 +33,6 @@ import emu.grasscutter.utils.Position;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import org.danilopianini.util.SpatialIndex;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -464,20 +468,22 @@ public class Scene {
 	public synchronized void checkSpawns() {
         int RANGE = 100;
 
-		SpatialIndex<SpawnGroupEntry> list = GameDepot.getSpawnListById(this.getId());
+		RTree<SpawnGroupEntry, Geometry> list = GameDepot.getSpawnListById(this.getId());
 		Set<SpawnDataEntry> visible = new HashSet<>();
-
+        ArrayList<SpawnGroupEntry> addedInRangeGroups = new ArrayList<>();
 		for (Player player : this.getPlayers()) {
             Position position = player.getPos();
-			Collection<SpawnGroupEntry> entries = list.query(
-				new double[] {position.getX() - RANGE, position.getZ() - RANGE},
-				new double[] {position.getX() + RANGE, position.getZ() + RANGE}
-			);
-			for (SpawnGroupEntry entry : entries) {
-				for (SpawnDataEntry spawnData : entry.getSpawns()) {
-					visible.add(spawnData);
-				}
-			}
+
+            var inRangeGroups
+                = SceneIndexManager.queryNeighbors(list,new double[]{position.getX(),position.getZ()},RANGE);
+            for (SpawnGroupEntry entry : inRangeGroups) {
+                if(!addedInRangeGroups.contains(entry)) {
+                    addedInRangeGroups.add(entry);
+                    for (SpawnDataEntry spawnData : entry.getSpawns()) {
+                        visible.add(spawnData);
+                    }
+                }
+            }
 		}
 
 		// World level
@@ -487,6 +493,8 @@ public class Scene {
 		if (worldLevelData != null) {
 			worldLevelOverride = worldLevelData.getMonsterLevel();
 		}
+
+		var leyLinesManager = getWorld().getHost().getLeyLinesManager();
 
 		// Todo
 		List<GameEntity> toAdd = new LinkedList<>();
@@ -514,14 +522,23 @@ public class Scene {
 
 					entity = monster;
 				} else if (entry.getGadgetId() > 0) {
-					EntityGadget gadget = new EntityGadget(this, entry.getGadgetId(), entry.getPos(), entry.getRot());
-					gadget.setGroupId(entry.getGroup().getGroupId());
-					gadget.setConfigId(entry.getConfigId());
-					gadget.setSpawnEntry(entry);
-					int state = entry.getGadgetState();
-					if(state>0) {
-                        gadget.setState(state);
+                    int gadgetId = entry.getGadgetId();
+                    if(LeyLinesType.valueOf(gadgetId)!=null){
+                        continue;
                     }
+                    EntityGadget gadget;
+                    if((gadgetId == 70520005 || gadgetId == 70520009) && Utils.randomRange(0,4)==0){// 20% chance replace those gadget with leyline
+                        gadget = leyLinesManager.createLeyLineGadgetEntity(entry.getPos(),LeyLinesType.random());
+                    } else {
+                        gadget = new EntityGadget(this, entry.getGadgetId(), entry.getPos(), entry.getRot());
+                        gadget.setGroupId(entry.getGroup().getGroupId());
+                        gadget.setConfigId(entry.getConfigId());
+                        int state = entry.getGadgetState();
+                        if (state > 0) {
+                            gadget.setState(state);
+                        }
+                    }
+                    gadget.setSpawnEntry(entry); // WARNING, a flaw: leylines possess other gadget's entry
 					gadget.buildContent();
 
 					gadget.setFightProperty(FightProperty.FIGHT_PROP_BASE_HP, 99999);
@@ -541,10 +558,15 @@ public class Scene {
 
 		for (GameEntity entity : this.getEntities().values()) {
 		    var spawnEntry = entity.getSpawnEntry();
-			if (spawnEntry != null && !visible.contains(spawnEntry)) {
-				toRemove.add(entity);
-                spawnedEntities.remove(spawnEntry);
-			}
+            if(spawnEntry != null) {
+                if (!visible.contains(spawnEntry) && spawnedEntities.contains(spawnEntry)) {
+                    if (entity instanceof EntityGadget gadget) {
+                        leyLinesManager.recycleLeyLineGadgetEntity(gadget);
+                    }
+                    toRemove.add(entity);
+                    spawnedEntities.remove(spawnEntry);
+                }
+            }
 		}
 
 		if (toAdd.size() > 0) {
