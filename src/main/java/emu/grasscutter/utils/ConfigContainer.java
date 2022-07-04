@@ -21,7 +21,7 @@ public class ConfigContainer {
     }
 
     /**
-     * Attempts to update the server's existing configuration to the latest 
+     * Attempts to update the server's existing configuration to the latest
      */
     public static void updateConfig() {
         try { // Check if the server is using a legacy config.
@@ -58,7 +58,7 @@ public class ConfigContainer {
             Grasscutter.getLogger().warn("Failed to inject the updated ", exception);
         }
     }
-    
+
     public Structure folderStructure = new Structure();
     public Database databaseInfo = new Database();
     public Language language = new Language();
@@ -73,7 +73,7 @@ public class ConfigContainer {
     public static class Database {
         public DataStore server = new DataStore();
         public DataStore game = new DataStore();
-        
+
         public static class DataStore {
             public String connectionUri = "mongodb://localhost:27017";
             public String collection = "grasscutter";
@@ -97,7 +97,7 @@ public class ConfigContainer {
 
         public HTTP http = new HTTP();
         public Game game = new Game();
-        
+
         public Dispatch dispatch = new Dispatch();
     }
 
@@ -108,13 +108,13 @@ public class ConfigContainer {
     }
 
     public static class Account {
-        public boolean autoCreate = false;
-        public String[] defaultPermissions = {};
+        public boolean autoCreate = true;
+        public String[] defaultPermissions = {"*"};
         public int maxPlayer = -1;
     }
 
     /* Server options. */
-    
+
     public static class HTTP {
         public String bindAddress = "0.0.0.0";
         /* This is the address used in URLs. */
@@ -123,7 +123,7 @@ public class ConfigContainer {
         public int bindPort = 443;
         /* This is the port used in URLs. */
         public int accessPort = 0;
-        
+
         public Encryption encryption = new Encryption();
         public Policies policies = new Policies();
         public Files files = new Files();
@@ -166,7 +166,7 @@ public class ConfigContainer {
         public Policies.CORS cors = new Policies.CORS();
 
         public static class CORS {
-            public boolean enabled = false;
+            public boolean enabled = true;
             public String[] allowedOrigins = new String[]{"*"};
         }
     }
@@ -179,7 +179,7 @@ public class ConfigContainer {
         public boolean watchGachaConfig = false;
         public boolean enableShopItems = true;
         public boolean staminaUsage = true;
-        public boolean energyUsage = false;
+        public boolean energyUsage = true;
         public ResinOptions resinOptions = new ResinOptions();
         public Rates rates = new Rates();
 
@@ -203,7 +203,7 @@ public class ConfigContainer {
         }
 
         public static class ResinOptions {
-            public boolean resinUsage = false;
+            public boolean resinUsage = true;
             public int cap = 160;
             public int rechargeTime = 480;
         }
@@ -211,22 +211,29 @@ public class ConfigContainer {
 
     public static class JoinOptions {
         public int[] welcomeEmotes = {2007, 1002, 4010};
-        public String welcomeMessage = "Welcome to a Grasscutter server.";
+        public String welcomeMessage = "欢迎来到你的世界服务器.";
         public JoinOptions.Mail welcomeMail = new JoinOptions.Mail();
 
         public static class Mail {
-            public String title = "Welcome to Grasscutter!";
+            public String title = "欢迎来到你的世界!";
             public String content = """
-                    Hi there!\r
-                    First of all, welcome to Grasscutter. If you have any issues, please let us know so that Lawnmower can help you! \r
+                    你好！\r
+                    首先，欢迎来到你的世界。如果您有任何问题，请让我们知道，以便我们可以帮助您！ \r
                     \r
-                    Check out our:\r
-                    <type="browser" text="Discord" href="https://discord.gg/T5vZU6UyeG"/>
+                    或者有问题直接百度:\r
+                    <type="browser" text="百度" href="https://baidu.com"/>
                     """;
-            public String sender = "Lawnmower";
+            public String sender = "Y·U·A·N·S·H·E·N";
             public emu.grasscutter.game.mail.Mail.MailItem[] items = {
-                    new emu.grasscutter.game.mail.Mail.MailItem(13509, 1, 1),
-                    new emu.grasscutter.game.mail.Mail.MailItem(201, 99999, 1)
+                new emu.grasscutter.game.mail.Mail.MailItem(201, 99999, 1),
+                new emu.grasscutter.game.mail.Mail.MailItem(202, 9999999, 1),
+                new emu.grasscutter.game.mail.Mail.MailItem(203, 99999, 1),
+                new emu.grasscutter.game.mail.Mail.MailItem(204, 99999, 1),
+                new emu.grasscutter.game.mail.Mail.MailItem(223, 666, 1),
+                new emu.grasscutter.game.mail.Mail.MailItem(224, 666, 1),
+                new emu.grasscutter.game.mail.Mail.MailItem(102, 1880200, 1),
+                new emu.grasscutter.game.mail.Mail.MailItem(105002, 9999, 1),
+                new emu.grasscutter.game.mail.Mail.MailItem(105003, 999, 1)
             };
         }
     }
@@ -237,10 +244,10 @@ public class ConfigContainer {
         public int adventureRank = 1;
         public int worldLevel = 0;
 
-        public String nickName = "Server";
-        public String signature = "Welcome to Grasscutter!";
+        public String nickName = "<color=#e65614>管</color><color=#14e65c>理</color><color=#e414e6>员</color>";
+        public String signature = "欢迎来到你的世界!";
     }
-    
+
     public static class Files {
         public String indexFile = "./index.html";
         public String errorFile = "./404.html";
@@ -250,7 +257,7 @@ public class ConfigContainer {
 
     public static class Region {
         public Region() { }
-        
+
         public Region(
                 String name, String title,
                 String address, int port
@@ -260,7 +267,7 @@ public class ConfigContainer {
             this.Ip = address;
             this.Port  = port;
         }
-        
+
         public String Name = "os_usa";
         public String Title = "Grasscutter";
         public String Ip = "127.0.0.1";
