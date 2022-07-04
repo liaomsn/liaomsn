@@ -22,12 +22,12 @@ public enum ConsumptionType {
     TALENT_DASH_START(-1000),
 
     // restore
-    POWERED_FLY(500),
-    POWERED_SKIFF(500),
-    RUN(500),
-    SKIFF(500),
-    STANDBY(500),
-    WALK(500);
+    POWERED_FLY(1000),
+    POWERED_SKIFF(1000),
+    RUN(1000),
+    SKIFF(1000),
+    STANDBY(1000),
+    WALK(1000);
 
     public final int amount;
 

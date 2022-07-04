@@ -3,12 +3,12 @@
     "itemId": 115019,
     "containsItem": [
       {
-        "Id": 104002,
-        "Count": 40
+        "id": 104002,
+        "count": 40
       },
       {
-        "Id": 202,
-        "Count": 30000
+        "id": 202,
+        "count": 30000
       }
     ]
   },
@@ -16,12 +16,12 @@
     "itemId": 115020,
     "containsItem": [
       {
-        "Id": 104013,
-        "Count": 25
+        "id": 104013,
+        "count": 25
       },
       {
-        "Id": 202,
-        "Count": 30000
+        "id": 202,
+        "count": 30000
       }
     ]
   },
@@ -29,16 +29,16 @@
     "itemId": 115021,
     "containsItem": [
       {
-        "Id": 115013,
-        "Count": 5
+        "id": 115013,
+        "count": 5
       },
       {
-        "Id": 104003,
-        "Count": 40
+        "id": 104003,
+        "count": 40
       },
       {
-        "Id": 202,
-        "Count": 120000
+        "id": 202,
+        "count": 120000
       }
     ]
   },
@@ -46,12 +46,12 @@
     "itemId": 115022,
     "containsItem": [
       {
-        "Id": 115017,
-        "Count": 25
+        "id": 115017,
+        "count": 25
       },
       {
-        "Id": 202,
-        "Count": 150000
+        "id": 202,
+        "count": 150000
       }
     ]
   },
@@ -59,12 +59,12 @@
     "itemId": 115023,
     "containsItem": [
       {
-        "Id": 115025,
-        "Count": 10
+        "id": 115025,
+        "count": 10
       },
       {
-        "Id": 202,
-        "Count": 60000
+        "id": 202,
+        "count": 60000
       }
     ]
   },
@@ -72,12 +72,12 @@
     "itemId": 115029,
     "containsItem": [
       {
-        "Id": 104013,
-        "Count": 100
+        "id": 104013,
+        "count": 100
       },
       {
-        "Id": 202,
-        "Count": 100000
+        "id": 202,
+        "count": 100000
       }
     ]
   },
@@ -85,12 +85,12 @@
     "itemId": 115030,
     "containsItem": [
       {
-        "Id": 104003,
-        "Count": 12
+        "id": 104003,
+        "count": 12
       },
       {
-        "Id": 202,
-        "Count": 10000
+        "id": 202,
+        "count": 10000
       }
     ]
   },
@@ -98,12 +98,12 @@
     "itemId": 115034,
     "containsItem": [
       {
-        "Id": 115013,
-        "Count": 6
+        "id": 115013,
+        "count": 6
       },
       {
-        "Id": 202,
-        "Count": 60000
+        "id": 202,
+        "count": 60000
       }
     ]
   },
@@ -111,8 +111,8 @@
     "itemId": 115032,
     "containsItem": [
       {
-        "Id": 115024,
-        "Count": 12
+        "id": 115024,
+        "count": 12
       }
     ]
   },
@@ -120,12 +120,12 @@
     "itemId": 115010,
     "containsItem": [
       {
-        "Id": 104002,
-        "Count": 80
+        "id": 104002,
+        "count": 80
       },
       {
-        "Id": 104012,
-        "Count": 40
+        "id": 104012,
+        "count": 40
       }
     ]
   },
@@ -133,20 +133,20 @@
     "itemId": 115011,
     "containsItem": [
       {
-        "Id": 104003,
-        "Count": 50
+        "id": 104003,
+        "count": 50
       },
       {
-        "Id": 104013,
-        "Count": 25
+        "id": 104013,
+        "count": 25
       },
       {
-        "Id": 107009,
-        "Count": 1
+        "id": 107009,
+        "count": 1
       },
       {
-        "Id": 202,
-        "Count": 50000
+        "id": 202,
+        "count": 50000
       }
     ]
   }

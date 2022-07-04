@@ -15,7 +15,7 @@ import emu.grasscutter.utils.Position;
 
 public class DeforestationManager {
     final static int RECORD_EXPIRED_SECONDS = 60*5; // 5 min
-    final static int RECORD_MAX_TIMES = 3; // max number of wood
+    final static int RECORD_MAX_TIMES = 5; // max number of wood
     final static int RECORD_MAX_TIMES_OTHER_HIT_TREE = 10; // if hit 10 times other trees, reset wood
 
     @Transient private final Player player;
@@ -69,7 +69,7 @@ public class DeforestationManager {
                             null,
                             GameData.getItemDataMap().get(itemId),
                             new Position(hitPosition.getX(), hitPosition.getY(), hitPosition.getZ()),
-                            1,
+                            2,
                             false);
                     scene.addEntity(entity);
                 }

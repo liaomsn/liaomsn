@@ -42,21 +42,21 @@
       "router_error": "[Dispatch] Unable to attach router."
     },
     "status": {
-      "free_software": "Grasscutter is FREE software. If you have paid for this, you may have been scammed. Homepage: https://github.com/Grasscutters/Grasscutter",
-      "starting": "Starting Grasscutter...",
-      "shutdown": "Shutting down...",
-      "done": "Done! For help, type \"help\"",
-      "error": "An error occurred.",
-      "welcome": "Welcome to Grasscutter!",
-      "run_mode_error": "Invalid server run mode: %s.",
-      "run_mode_help": "Server run mode must be 'HYBRID', 'DISPATCH_ONLY', or 'GAME_ONLY'. Unable to start Grasscutter...",
-      "create_resources": "Creating resources folder...",
-      "resources_error": "Place a copy of 'BinOutput' and 'ExcelBinOutput' in the resources folder.",
-      "version": "Grasscutter version: %s-%s",
-      "game_version": "Game version: %s",
+      "free_software":  "欢迎启动你的世界服务端！",
+      "starting": "正在启动 你的世界服务端...",
+      "shutdown": "正在关闭...",
+      "done": "加载完成！输入 \"help\" 查看命令列表",
+      "error": "发生了一个错误。",
+      "welcome": "欢迎使用 你的世界服务端！珍惜这段美妙的旅途吧！",
+      "run_mode_error": "无效的服务器运行模式：%s。",
+      "run_mode_help": "服务器运行模式必须为 'HYBRID'(混合)、'DISPATCH_ONLY'(仅 Dispatch) 或 'GAME_ONLY'(仅游戏)。你的世界服务端 启动失败...",
+      "create_resources": "正在创建 resources 目录...",
+      "resources_error": "请将 BinOutput 和 ExcelBinOutput 复制到 resources 目录。",
+      "version": "你的世界服务端 版本：%s-%s",
+      "game_version": "游戏版本: %s",
       "resources": {
-        "loading": "Loading resources...",
-        "finish": "Finished loading resources."
+        "loading": "正在加载资源...",
+        "finish": "已完成加载资源."
       }
     }
   },
