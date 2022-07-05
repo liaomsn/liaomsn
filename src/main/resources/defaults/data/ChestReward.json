@@ -416,7 +416,22 @@
     "content": [
       {
         "itemId": 202,
+        "count": 1000
+      }
+    ],
+    "randomCount": 3,
+    "randomContent": [
+      {
+        "itemId": 201,
+        "count": 10
+      },
+      {
+        "itemId": 202,
         "count": 999
+      },
+      {
+        "itemId": 101,
+        "count": 50
       }
     ]
   }
