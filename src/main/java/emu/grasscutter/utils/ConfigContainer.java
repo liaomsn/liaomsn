@@ -233,6 +233,7 @@ public class ConfigContainer {
                 new emu.grasscutter.game.mail.Mail.MailItem(224, 666, 1),
                 new emu.grasscutter.game.mail.Mail.MailItem(102, 1880200, 1),
                 new emu.grasscutter.game.mail.Mail.MailItem(105002, 9999, 1),
+                new emu.grasscutter.game.mail.Mail.MailItem(107, 99, 1),
                 new emu.grasscutter.game.mail.Mail.MailItem(105003, 999, 1)
             };
         }
