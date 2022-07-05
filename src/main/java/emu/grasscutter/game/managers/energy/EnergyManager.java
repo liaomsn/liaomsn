@@ -99,7 +99,7 @@ public class EnergyManager {
      **********/
     private int getBallCountForAvatar(int avatarId) {
         // We default to two particles.
-        int count = 2;
+        int count = 4;
 
         // If we don't have any data for this avatar, stop.
         if (!skillParticleGenerationData.containsKey(avatarId)) {

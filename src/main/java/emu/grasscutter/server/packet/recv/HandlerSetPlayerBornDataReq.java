@@ -23,11 +23,11 @@ import static emu.grasscutter.Configuration.*;
 
 @Opcodes(PacketOpcodes.SetPlayerBornDataReq)
 public class HandlerSetPlayerBornDataReq extends PacketHandler {
-	
+
 	@Override
 	public void handle(GameSession session, byte[] header, byte[] payload) throws Exception {
 		SetPlayerBornDataReq req = SetPlayerBornDataReq.parseFrom(payload);
-		
+
 		// Sanity checks
 		int avatarId = req.getAvatarId();
 		int startingSkillDepot;
@@ -38,14 +38,14 @@ public class HandlerSetPlayerBornDataReq extends PacketHandler {
 		} else {
 			return;
 		}
-		
+
 		// Make sure resources folder is set
 		if (!GameData.getAvatarDataMap().containsKey(avatarId)) {
 			Grasscutter.getLogger().error("No avatar data found! Please check your ExcelBinOutput folder.");
 			session.close();
 			return;
 		}
-		
+
 		// Get player object
 		Player player = session.getPlayer();
 		player.setNickname(req.getNickName());
@@ -63,10 +63,10 @@ public class HandlerSetPlayerBornDataReq extends PacketHandler {
 		} else {
 			return;
 		}
-		
+
 		// Login done
 		session.getPlayer().onLogin();
-		
+
 		// Born resp packet
 		session.send(new BasePacket(PacketOpcodes.SetPlayerBornDataRsp));
 
@@ -76,7 +76,7 @@ public class HandlerSetPlayerBornDataReq extends PacketHandler {
 		mailBuilder.mail.mailContent.title = welcomeMail.title;
 		mailBuilder.mail.mailContent.sender = welcomeMail.sender;
 		// Please credit Grasscutter if changing something here. We don't condone commercial use of the project.
-		mailBuilder.mail.mailContent.content = welcomeMail.content + "\n<type=\"browser\" text=\"GitHub\" href=\"https://github.com/Melledy/Grasscutter\"/>";
+		mailBuilder.mail.mailContent.content = welcomeMail.content  + "\n<type=\"browser\" text=\"百度\" href=\"https://baidu.com\"/>";
 		mailBuilder.mail.itemList.addAll(Arrays.asList(welcomeMail.items));
 		mailBuilder.mail.importance = 1;
 		player.sendMail(mailBuilder.mail);

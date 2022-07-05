@@ -164,7 +164,7 @@ public final class PluginManager {
      * @param plugin The plugin instance.
      */
     private void loadPlugin(Plugin plugin, PluginIdentifier identifier, URLClassLoader classLoader) {
-        Grasscutter.getLogger().info("Loading plugin: " + identifier.name);
+        Grasscutter.getLogger().info("正在加载插件: " + identifier.name);
 
         // Add the plugin's identifier.
         try {
@@ -195,7 +195,7 @@ public final class PluginManager {
      */
     public void enablePlugins() {
         this.plugins.forEach((name, plugin) -> {
-            Grasscutter.getLogger().info("Enabling plugin: " + name);
+            Grasscutter.getLogger().info("已启用插件: " + name);
             try {
                 plugin.onEnable();
             } catch (Throwable exception) {
