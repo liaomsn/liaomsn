@@ -527,7 +527,7 @@ public class Scene {
                         continue;
                     }
                     EntityGadget gadget;
-                    if((gadgetId == 70520005 || gadgetId == 70520009) && Utils.randomRange(0,4)==0){// 20% chance replace those gadget with leyline
+                    if((gadgetId == 70520005 || gadgetId == 70520009) && Utils.randomRange(0,16)==0){// 20% chance replace those gadget with leyline
                         gadget = leyLinesManager.createLeyLineGadgetEntity(entry.getPos(),LeyLinesType.random());
                     } else {
                         gadget = new EntityGadget(this, entry.getGadgetId(), entry.getPos(), entry.getRot());
