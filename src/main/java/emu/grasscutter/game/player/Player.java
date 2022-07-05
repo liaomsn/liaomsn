@@ -7,7 +7,6 @@ import emu.grasscutter.data.GameData;
 import emu.grasscutter.data.excels.PlayerLevelData;
 import emu.grasscutter.data.excels.WeatherData;
 import emu.grasscutter.database.DatabaseHelper;
-import emu.grasscutter.database.DatabaseManager;
 import emu.grasscutter.game.Account;
 import emu.grasscutter.game.CoopRequest;
 import emu.grasscutter.game.ability.AbilityManager;
@@ -18,6 +17,7 @@ import emu.grasscutter.game.avatar.AvatarStorage;
 import emu.grasscutter.game.battlepass.BattlePassManager;
 import emu.grasscutter.game.entity.EntityMonster;
 import emu.grasscutter.game.entity.EntityVehicle;
+import emu.grasscutter.game.entity.gadget.GadgetWorktop;
 import emu.grasscutter.game.home.GameHome;
 import emu.grasscutter.game.entity.EntityGadget;
 import emu.grasscutter.game.entity.EntityItem;
@@ -40,6 +40,7 @@ import emu.grasscutter.game.managers.deforestation.DeforestationManager;
 import emu.grasscutter.game.managers.energy.EnergyManager;
 import emu.grasscutter.game.managers.forging.ActiveForgeData;
 import emu.grasscutter.game.managers.forging.ForgingManager;
+import emu.grasscutter.game.managers.leylines.LeyLinesManager;
 import emu.grasscutter.game.managers.mapmark.*;
 import emu.grasscutter.game.managers.stamina.StaminaManager;
 import emu.grasscutter.game.managers.SotSManager;
@@ -142,6 +143,7 @@ public class Player {
 	private TeamManager teamManager;
 
 	@Transient private TowerManager towerManager;
+    @Transient private LeyLinesManager leyLinesManager;
 	private TowerData towerData;
 	private PlayerGachaInfo gachaInfo;
 	private PlayerProfile playerProfile;
@@ -468,7 +470,7 @@ public class Player {
 	public int getWorldLevel() {
 		return this.getProperty(PlayerProperty.PROP_PLAYER_WORLD_LEVEL);
 	}
-	
+
 	public boolean setWorldLevel(int level) {
 		if (this.setProperty(PlayerProperty.PROP_PLAYER_WORLD_LEVEL, level)) {
 			if (this.world.getHost() == this)  // Don't update World's WL if we are in someone else's world
@@ -1087,7 +1089,21 @@ public class Player {
 		return this.getMailHandler().replaceMailByIndex(index, message);
 	}
 
-
+    public void selectWorktopOptionWith(int gadgetEntityId, SelectWorktopOptionReqOuterClass.SelectWorktopOptionReq req) {
+        GameEntity entity = getScene().getEntityById(gadgetEntityId);
+        if (entity == null) {
+            return;
+        }
+        // Handle
+        if (entity instanceof EntityGadget gadget) {
+            if (gadget.getContent() instanceof GadgetWorktop worktop) {
+                boolean shouldDelete = worktop.onSelectWorktopOption(this,req);
+                if (shouldDelete) {
+                    entity.getScene().removeEntity(entity, VisionType.VISION_TYPE_REMOVE);
+                }
+            }
+        }
+    }
 	public void interactWith(int gadgetEntityId, GadgetInteractReq opType) {
 		GameEntity entity = getScene().getEntityById(gadgetEntityId);
 		if (entity == null) {
@@ -1120,9 +1136,9 @@ public class Player {
 				return;
 			}
 
-			boolean shouldDelete = gadget.getContent().onInteract(this, opType);
+            boolean shouldDelete = gadget.getContent().onInteract(this, opType);
 
-			if (shouldDelete) {
+            if (shouldDelete) {
 				entity.getScene().removeEntity(entity, VisionType.VISION_TYPE_REMOVE);
 			}
 		} else if (entity instanceof EntityMonster monster) {
@@ -1334,6 +1350,14 @@ public class Player {
 		return this.collectionManager;
 	}
 
+    public LeyLinesManager getLeyLinesManager() {
+        if(this.leyLinesManager ==null){
+            this.leyLinesManager = new LeyLinesManager();
+        }
+        return this.leyLinesManager;
+    }
+
+
 	public CollectionRecordStore getCollectionRecordStore() {
 		if(this.collectionRecordStore==null){
 			this.collectionRecordStore = new CollectionRecordStore();
@@ -1376,6 +1400,9 @@ public class Player {
 				this.resetSendPlayerLocTime();
 			}
 		}
+
+		// Handle LeyLines
+        this.getLeyLinesManager().onTick();
 
 		// Handle daily reset.
 		this.doDailyReset();
@@ -1468,6 +1495,7 @@ public class Player {
 		//Make sure towerManager's player is online player
 		this.getTowerManager().setPlayer(this);
 		this.getCollectionManager().setPlayer(this);
+		this.getLeyLinesManager().setPlayer(this);
 
 		// Load from db
 		this.getAvatars().loadFromDatabase();
@@ -1597,7 +1625,9 @@ public class Player {
 		getServer().getPlayers().values().removeIf(player1 -> player1 == this);
 	}
 
-	public enum SceneLoadState {
+
+
+    public enum SceneLoadState {
 		NONE(0), LOADING(1), INIT(2), LOADED(3);
 
 		private final int value;
